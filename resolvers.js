@@ -12,7 +12,7 @@ const authenticated = next => (root, args, ctx, info) => {
         throw new AuthenticationError('You must be logged in!');
     }
 
-    return next();
+    return next(root, args, ctx, info);
 };
 
 module.exports = {
