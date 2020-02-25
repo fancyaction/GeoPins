@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Typography, Button } from '@material-ui/core';
 import {
@@ -7,8 +7,10 @@ import {
     Clear as ClearIcon,
     SaveTwoTone as SaveIcon
 } from '@material-ui/icons';
+import UserContext from '../../context';
 
 const CreatePin = ({ classes }) => {
+    const { dispatch } = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('');
     const [content, setContent] = useState('');
@@ -16,6 +18,13 @@ const CreatePin = ({ classes }) => {
     const handleSubmit = ev => {
         ev.preventDefault();
         console.log({ title, image, content });
+    };
+
+    const handleDeleteDraft = () => {
+        setTitle('');
+        setImage('');
+        setContent('');
+        dispatch({ type: 'DELETE_DRAFT' });
     };
 
     return (
@@ -61,7 +70,7 @@ const CreatePin = ({ classes }) => {
                 />
             </div>
             <div>
-                <Button className={classes.button} variant="contained" color="primary">
+                <Button className={classes.button} variant="contained" color="primary" onClick={handleDeleteDraft}>
                     <ClearIcon className={classes.leftIcon} /> Discard
                 </Button>
                 <Button
