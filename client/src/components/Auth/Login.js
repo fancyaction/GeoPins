@@ -9,7 +9,7 @@ import { ME_QUERY } from '../../graphql/queries';
 const Login = ({ classes }) => {
     const { dispatch } = useContext(UserContext);
 
-    const onFailure = err => console.err('Error logging in', err);
+    const onFailure = err => console.error('Error logging in', err);
 
     const onSuccess = async googleUser => {
         try {
