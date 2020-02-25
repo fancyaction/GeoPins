@@ -6,16 +6,6 @@ import UserContext from '../../context';
 import { Typography } from '@material-ui/core';
 import { ME_QUERY } from '../../graphql/queries';
 
-const ME_QUERY = `{
-    me {
-      _id
-      name
-      email
-      picture
-    }
-  }
-  `;
-
 const Login = ({ classes }) => {
     const { dispatch } = useContext(UserContext);
 
@@ -46,7 +36,8 @@ const Login = ({ classes }) => {
                 onFailure={onFailure}
                 isSignedIn={true}
                 theme="dark"
-        />
+            />
+        </div>
     );
 };
 
