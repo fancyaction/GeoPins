@@ -39,7 +39,7 @@ const CreatePin = ({ classes }) => {
                     <ClearIcon className={classes.leftIcon} /> Discard
                 </Button>
                 <Button type="submit" className={classes.button} variant="contained" color="secondary">
-                    <SaveIcon className={classes.rightIcon} /> Submit
+                    Submit <SaveIcon className={classes.rightIcon} />
                 </Button>
             </div>
         </form>
