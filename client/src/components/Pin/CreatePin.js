@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Typography, Button } from '@material-ui/core';
 import {
@@ -9,16 +9,41 @@ import {
 } from '@material-ui/icons';
 
 const CreatePin = ({ classes }) => {
+    const [title, setTitle] = useState('');
+    const [image, setImage] = useState('');
+    const [content, setContent] = useState('');
+
+    const handleSubmit = ev => {
+        ev.preventDefault();
+        console.log({ title, image, content });
+    };
+
     return (
         <form className={classes.form}>
             <Typography className={classes.alignCenter} component="h2" variant="h4" color="secondary">
                 <LandscapeIcon className={classes.iconLarge} /> Pin Location
             </Typography>
             <div>
-                <TextField name="title" label="title" placeholder="Insert pin title" />
-                <input accept="image/*" id="image" type="file" className={classes.input} />
+                <TextField
+                    name="title"
+                    label="title"
+                    placeholder="Insert pin title"
+                    onChange={ev => setTitle(ev.target.value)}
+                />
+                <input
+                    accept="image/*"
+                    id="image"
+                    type="file"
+                    className={classes.input}
+                    onChange={ev => setImage(ev.target.files[0])}
+                />
                 <label htmlFor="image">
-                    <Button component="span" size="small" className={classes.button}>
+                    <Button
+                        style={{ color: image && 'green' }}
+                        component="span"
+                        size="small"
+                        className={classes.button}
+                    >
                         <AddAPhotoIcon />
                     </Button>
                 </label>
@@ -32,13 +57,21 @@ const CreatePin = ({ classes }) => {
                     margin="normal"
                     fullWidth
                     variant="outlined"
+                    onChange={ev => setContent(ev.target.value)}
                 />
             </div>
             <div>
                 <Button className={classes.button} variant="contained" color="primary">
                     <ClearIcon className={classes.leftIcon} /> Discard
                 </Button>
-                <Button type="submit" className={classes.button} variant="contained" color="secondary">
+                <Button
+                    type="submit"
+                    className={classes.button}
+                    variant="contained"
+                    color="secondary"
+                    disabled={!title.trim() || !content.trim() || !image}
+                    onClick={handleSubmit}
+                >
                     Submit <SaveIcon className={classes.rightIcon} />
                 </Button>
             </div>
