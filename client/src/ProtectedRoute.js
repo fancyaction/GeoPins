@@ -5,7 +5,7 @@ import UserContext from './context';
 const ProtectedRoute = ({ component: Component, ...rest }) => {
     const { state } = useContext(UserContext);
 
-    return <Route render={props => (!state.isAuth ? <Redirect to="/" /> : <Component {...props} />)} {...rest} />;
+    return <Route render={props => (!state.isAuth ? <Redirect to="/login" /> : <Component {...props} />)} {...rest} />;
 };
 
 export default ProtectedRoute;
