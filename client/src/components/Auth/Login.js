@@ -3,6 +3,8 @@ import { GraphQLClient } from 'graphql-request';
 import { GoogleLogin } from 'react-google-login';
 import { withStyles } from '@material-ui/core/styles';
 import UserContext from '../../context';
+import { Typography } from '@material-ui/core';
+import { ME_QUERY } from '../../graphql/queries';
 
 const ME_QUERY = `{
     me {
@@ -34,11 +36,16 @@ const Login = ({ classes }) => {
     };
 
     return (
-        <GoogleLogin
-            clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            isSignedIn={true}
+        <div className={classes.root}>
+            <Typography component="h1" variant="h3" gutterBottom noWrap style={{ color: 'rgb(66, 133, 244)' }}>
+                Welcome
+            </Typography>
+            <GoogleLogin
+                clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
+                onSuccess={onSuccess}
+                onFailure={onFailure}
+                isSignedIn={true}
+                theme="dark"
         />
     );
 };
