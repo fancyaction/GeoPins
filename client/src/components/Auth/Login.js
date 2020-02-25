@@ -17,17 +17,30 @@ const ME_QUERY = `{
 const Login = ({ classes }) => {
     const { dispatch } = useContext(UserContext);
 
-    const onSuccess = async googleUser => {
-        const token = googleUser.getAuthResponse().id_token;
-        const client = new GraphQLClient('http://localhost:4000/graphql', {
-            headers: { authorization: token }
-        });
+    const onFailure = err => console.err('Error logging in', err);
 
-        const data = await client.request(ME_QUERY);
-        dispatch({ type: 'LOGIN_USER', payload: data.me });
+    const onSuccess = async googleUser => {
+        try {
+            const token = googleUser.getAuthResponse().id_token;
+            const client = new GraphQLClient('http://localhost:4000/graphql', {
+                headers: { authorization: token }
+            });
+
+            const { me } = await client.request(ME_QUERY);
+            dispatch({ type: 'LOGIN_USER', payload: me });
+        } catch (err) {
+            onFailure(err);
+        }
     };
 
-    return <GoogleLogin clientId={process.env.REACT_APP_OAUTH_CLIENT_ID} onSuccess={onSuccess} isSignedIn={true} />;
+    return (
+        <GoogleLogin
+            clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
+            onSuccess={onSuccess}
+            onFailure={onFailure}
+            isSignedIn={true}
+        />
+    );
 };
 
 const styles = {
