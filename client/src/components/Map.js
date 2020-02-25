@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactMapGL, { NavigationControl } from 'react-map-gl';
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Typography } from '@material-ui/core';
@@ -12,6 +12,21 @@ const INITIAL_VIEWPORT = {
 
 const Map = ({ classes }) => {
     const [viewport, setViewport] = useState(INITIAL_VIEWPORT);
+    const [userPosition, setUserPosition] = useState(null);
+
+    useEffect(() => {
+        const getUserPosition = () => {
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(posiition => {
+                    const { latitude, longitude } = posiition.coords;
+                    setViewport(prevViewport => ({ ...prevViewport, latitude, longitude }));
+                    setUserPosition({ latitude, longitude });
+                });
+            }
+        };
+
+        getUserPosition();
+    }, []);
 
     return (
         <div className={classes.root}>
