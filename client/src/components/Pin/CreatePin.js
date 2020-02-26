@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { GraphQLClient } from 'graphql-request';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 import { TextField, Typography, Button } from '@material-ui/core';
@@ -9,12 +10,14 @@ import {
     SaveTwoTone as SaveIcon
 } from '@material-ui/icons';
 import UserContext from '../../context';
+import { CREATE_PIN_MUTATION } from '../../graphql/mutations';
 
 const CreatePin = ({ classes }) => {
-    const { dispatch } = useContext(UserContext);
+    const { state, dispatch } = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('');
     const [content, setContent] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
     const handleImageUpload = async () => {
         const data = new FormData();
@@ -30,9 +33,35 @@ const CreatePin = ({ classes }) => {
     };
 
     const handleSubmit = async ev => {
-        ev.preventDefault();
-        const url = await handleImageUpload();
-        console.log({ title, image, content, url });
+        try {
+            ev.preventDefault();
+            setSubmitting(true);
+
+            const idToken = window.gapi.auth2
+                .getAuthInstance()
+                .currentUser.get()
+                .getAuthResponse().id_token;
+
+            const client = new GraphQLClient('http://localhost:4000/graphql', {
+                headers: { authorization: idToken }
+            });
+
+            const url = await handleImageUpload();
+            const variables = {
+                title,
+                image: url,
+                content,
+                latitude: state.draft.latitude,
+                longitude: state.draft.longitude
+            };
+
+            const { createPin } = await client.request(CREATE_PIN_MUTATION, variables);
+            handleDeleteDraft();
+            console.log('Pin Created:', createPin);
+        } catch (error) {
+            setSubmitting(false);
+            console.error('Error creating pin', error);
+        }
     };
 
     const handleDeleteDraft = () => {
@@ -93,10 +122,10 @@ const CreatePin = ({ classes }) => {
                     className={classes.button}
                     variant="contained"
                     color="secondary"
-                    disabled={!title.trim() || !content.trim() || !image}
+                    disabled={!title.trim() || !content.trim() || !image || submitting}
                     onClick={handleSubmit}
                 >
-                    Submit <SaveIcon className={classes.rightIcon} />
+                    {submitting ? 'Saving' : 'Submit'} <SaveIcon className={classes.rightIcon} />
                 </Button>
             </div>
         </form>
