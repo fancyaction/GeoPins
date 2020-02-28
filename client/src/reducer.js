@@ -19,6 +19,7 @@ const userReducer = (state, { type, payload }) => {
         case 'CREATE_DRAFT':
             return {
                 ...state,
+                currentPin: null,
                 draft: {
                     latitude: 0,
                     longitude: 0
@@ -45,6 +46,12 @@ const userReducer = (state, { type, payload }) => {
             return {
                 ...state,
                 pins: [...prevPins, newPin]
+            };
+        case 'SET_PIN':
+            return {
+                ...state,
+                currentPin: payload,
+                draft: null
             };
 
         default:
