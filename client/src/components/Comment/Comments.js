@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
+import distanceInWordsToNow from 'date-fns/distance_in_words_to_now';
 import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -17,9 +18,12 @@ const Comments = ({ comments, classes }) => (
                 <ListItemText
                     primary={comment.text}
                     secondary={
-                        <Typography className={classes.inline} component="span" color="textPrimary">
-                            {comment.author.name}
-                        </Typography>
+                        <Fragment>
+                            <Typography className={classes.inline} component="span" color="textPrimary">
+                                {comment.author.name}
+                            </Typography>
+                            . {distanceInWordsToNow(Number(comment.createdAt))} ago
+                        </Fragment>
                     }
                 />
             </ListItem>
