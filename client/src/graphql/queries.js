@@ -7,3 +7,31 @@ export const ME_QUERY = `{
     }
   }
   `;
+
+export const GET_PINS_QUERY = `{
+    getPins {
+      _id
+      createdAt
+      title
+      image
+      content
+      latitude
+      longitude
+      author {
+          _id
+          name
+          email
+          picture
+      }
+      comment {
+          text
+          createdAt
+          author {
+              _id
+              name
+              picture
+          }
+      }
+    }
+  }
+  `;
