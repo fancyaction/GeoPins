@@ -5,6 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import AccessTimeIcon from '@material-ui/icons/AccessTime';
 import FaceIcon from '@material-ui/icons/Face';
 import UserContext from '../../context';
+import Comments from '../Comment/Comments';
+import CreateComment from '../Comment/CreateComment';
 
 const PinContent = ({ classes }) => {
     const { state } = useContext(UserContext);
@@ -24,6 +26,8 @@ const PinContent = ({ classes }) => {
             <Typography variant="subtitle1" gutterBottom>
                 <AccessTimeIcon className={classes.icon} /> {content}
             </Typography>
+            <CreateComment />
+            {comment && <Comments comments={comment} />}
         </div>
     );
 };
