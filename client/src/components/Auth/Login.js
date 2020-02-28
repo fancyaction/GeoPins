@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import UserContext from '../../context';
 import { Typography } from '@material-ui/core';
 import { ME_QUERY } from '../../graphql/queries';
+import { BASE_URL } from '../../client';
 
 const Login = ({ classes }) => {
     const { dispatch } = useContext(UserContext);
@@ -14,7 +15,7 @@ const Login = ({ classes }) => {
     const onSuccess = async googleUser => {
         try {
             const token = googleUser.getAuthResponse().id_token;
-            const client = new GraphQLClient('http://localhost:4000/graphql', {
+            const client = new GraphQLClient(BASE_URL, {
                 headers: { authorization: token }
             });
 
