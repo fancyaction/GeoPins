@@ -17,7 +17,7 @@ module.exports = gql`
         latitude: Float
         longitude: Float
         author: User
-        comment: [Comment]
+        comments: [Comment]
     }
 
     type Comment {

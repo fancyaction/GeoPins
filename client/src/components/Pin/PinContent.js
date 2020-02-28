@@ -10,7 +10,7 @@ import CreateComment from '../Comment/CreateComment';
 
 const PinContent = ({ classes }) => {
     const { state } = useContext(UserContext);
-    const { title, content, author, createdAt, comment } = state.currentPin;
+    const { title, content, author, createdAt, comments } = state.currentPin;
 
     return (
         <div className={classes.root}>
@@ -27,7 +27,7 @@ const PinContent = ({ classes }) => {
                 <AccessTimeIcon className={classes.icon} /> {content}
             </Typography>
             <CreateComment />
-            {comment && <Comments comments={comment} />}
+            {comments && <Comments comments={comments} />}
         </div>
     );
 };

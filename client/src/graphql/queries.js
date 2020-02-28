@@ -23,7 +23,7 @@ export const GET_PINS_QUERY = `{
           email
           picture
       }
-      comment {
+      comments {
           text
           createdAt
           author {
