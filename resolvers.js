@@ -32,11 +32,11 @@ module.exports = {
                 author: ctx.currentUser._id
             }).save();
 
-            const result = await Pin.populate(newPin, 'author');
+            const pinAdded = await Pin.populate(newPin, 'author');
 
             pubsub.publish(PIN_ADDED, { pinAdded });
 
-            return result;
+            return pinAdded;
         }),
         deletePin: authenticated(async (root, args, ctx) => {
             const pinDeleted = await Pin.findOneAndDelete({ _id: args.pinId }).exec();
