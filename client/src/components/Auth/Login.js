@@ -10,7 +10,10 @@ import { BASE_URL } from '../../client';
 const Login = ({ classes }) => {
     const { dispatch } = useContext(UserContext);
 
-    const onFailure = err => console.error('Error logging in', err);
+    const onFailure = err => {
+        console.error('Error logging in', err);
+        dispatch({ type: 'IS_LOGGED_IN', payload: false });
+    };
 
     const onSuccess = async googleUser => {
         try {
