@@ -28,6 +28,14 @@ const Map = ({ classes }) => {
     const [popup, setPopup] = useState(null);
 
     useEffect(() => {
+        const pinExists = popup && state.pins.findIndex(pin => pin._id === popup._id) > -1;
+
+        if (!pinExists) {
+            setPopup(null);
+        }
+    }, [state.pins.length]);
+
+    useEffect(() => {
         const getPins = async () => {
             const { getPins } = await client.request(GET_PINS_QUERY);
             dispatch({ type: 'GET_PINS', payload: getPins });
