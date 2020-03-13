@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
-import { TextField, Typography, Button } from '@material-ui/core';
+import { TextField, Typography, Button, useMediaQuery } from '@material-ui/core';
 import {
     AddAPhotoTwoTone as AddAPhotoIcon,
     LandscapeOutlined as LandscapeIcon,
@@ -14,6 +14,7 @@ import { useClient } from '../../client';
 
 const CreatePin = ({ classes }) => {
     const client = useClient();
+    const mobileSize = useMediaQuery('(max-width: 650px)');
     const { state, dispatch } = useContext(UserContext);
     const [title, setTitle] = useState('');
     const [image, setImage] = useState('');
@@ -97,7 +98,7 @@ const CreatePin = ({ classes }) => {
                     name="content"
                     label="content"
                     multiline
-                    rows="6"
+                    rows={mobileSize ? '3' : '6'}
                     margin="normal"
                     fullWidth
                     variant="outlined"
@@ -129,11 +130,11 @@ const styles = theme => ({
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'column',
-        paddingBottom: theme.spacing.unit
+        paddingBottom: theme.spacing(1)
     },
     contentField: {
-        marginLeft: theme.spacing.unit,
-        marginRight: theme.spacing.unit,
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
         width: '95%'
     },
     input: {
@@ -145,20 +146,20 @@ const styles = theme => ({
     },
     iconLarge: {
         fontSize: 40,
-        marginRight: theme.spacing.unit
+        marginRight: theme.spacing(1)
     },
     leftIcon: {
         fontSize: 20,
-        marginRight: theme.spacing.unit
+        marginRight: theme.spacing(1)
     },
     rightIcon: {
         fontSize: 20,
-        marginLeft: theme.spacing.unit
+        marginLeft: theme.spacing(1)
     },
     button: {
-        marginTop: theme.spacing.unit * 2,
-        marginBottom: theme.spacing.unit * 2,
-        marginRight: theme.spacing.unit,
+        marginTop: theme.spacing(2),
+        marginBottom: theme.spacing(2),
+        marginRight: theme.spacing(1),
         marginLeft: 0
     }
 });

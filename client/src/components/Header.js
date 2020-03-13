@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, useMediaQuery } from '@material-ui/core';
 import MapIcon from '@material-ui/icons/Map';
 import UserContext from '../context';
 import SignOut from '../components/Auth/Signout';
 
 const Header = ({ classes }) => {
     const { state } = useContext(UserContext);
+    const mobileSize = useMediaQuery('(max-width: 650px)');
     const { currentUser } = state;
 
     return (
@@ -15,14 +16,25 @@ const Header = ({ classes }) => {
                 <Toolbar>
                     <div className={classes.grow}>
                         <MapIcon className={classes.icon} />
-                        <Typography component="h1" variant="h6" color="inherit" noWrap>
+                        <Typography
+                            component="h1"
+                            variant="h6"
+                            color="inherit"
+                            noWrap
+                            className={mobileSize ? classes.mobile : ''}
+                        >
                             GeoPins
                         </Typography>
                     </div>
                     {currentUser && (
                         <div className={classes.grow}>
                             <img className={classes.picture} src={currentUser.picture} alt={currentUser.name} />
-                            <Typography variant="h5" color="inherit" noWrap>
+                            <Typography
+                                variant="h5"
+                                color="inherit"
+                                noWrap
+                                className={mobileSize ? classes.mobile : ''}
+                            >
                                 {currentUser.name}
                             </Typography>
                         </div>
@@ -44,7 +56,7 @@ const styles = theme => ({
         alignItems: 'center'
     },
     icon: {
-        marginRight: theme.spacing.unit,
+        marginRight: theme.spacing(1),
         color: 'green',
         fontSize: 45
     },
@@ -54,7 +66,7 @@ const styles = theme => ({
     picture: {
         height: '50px',
         borderRadius: '90%',
-        marginRight: theme.spacing.unit * 2
+        marginRight: theme.spacing(2)
     }
 });
 
